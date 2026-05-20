@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Names Quiz – Class 1 Maths</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --c-sky: #DFF6FF;
+  --c-navy: #1a2e4a;
+  --c-blue: #3D8EF0;
+  --c-green: #2DC970;
+  --c-yellow: #FFD93D;
+  --c-orange: #FF8C42;
+  --c-pink: #FF6BA8;
+  --c-purple: #9B6DFF;
+  --c-coral: #FF6B6B;
+  --c-mint: #3ECFB2;
+}
+
+html, body { min-height:100vh; background:var(--c-sky); font-family:'Nunito',sans-serif; }
+
+body {
+  background-color:var(--c-sky);
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(255,180,80,0.18) 0%,transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(61,142,240,0.15) 0%,transparent 35%),
+    radial-gradient(circle at 70% 85%, rgba(46,201,112,0.13) 0%,transparent 40%),
+    radial-gradient(circle at 10% 80%, rgba(155,109,255,0.12) 0%,transparent 35%);
+  overflow-x:hidden;
+}
+
+/* Floating decorations */
+.deco { position:fixed; pointer-events:none; z-index:0; border-radius:50%; opacity:0.42; animation:floatDeco 7s ease-in-out infinite; }
+.d1{width:88px;height:88px;background:#FFD93D;top:4%;left:2%;animation-delay:0s;}
+.d2{width:58px;height:58px;background:#FF8C42;top:11%;right:3%;animation-delay:1.2s;}
+.d3{width:72px;height:72px;background:#3ECFB2;bottom:18%;left:3%;animation-delay:2.5s;}
+.d4{width:52px;height:52px;background:#FF6BA8;bottom:7%;right:5%;animation-delay:0.8s;}
+.d5{width:44px;height:44px;background:#9B6DFF;top:44%;right:1%;animation-delay:3.5s;}
+.d6{width:48px;height:48px;background:#3D8EF0;top:60%;left:1%;animation-delay:1.8s;}
+@keyframes floatDeco{0%,100%{transform:translateY(0)rotate(0deg);}50%{transform:translateY(-18px)rotate(15deg);}}
+
+/* Stars bg */
+.star-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star{position:absolute;opacity:.16;animation:twinkle 3s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.16;transform:scale(1)}50%{opacity:.42;transform:scale(1.3)}}
+
+/* Layout */
+.app{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:16px 14px 50px;}
+
+/* Header */
+.header{text-align:center;margin-bottom:16px;}
+.hlogo{display:inline-flex;align-items:center;gap:10px;background:white;border-radius:50px;padding:8px 22px;box-shadow:0 4px 20px rgba(61,142,240,0.2);border:2.5px solid rgba(61,142,240,0.25);margin-bottom:8px;}
+.hlogo .icon{font-size:1.6rem;}
+.hlogo span{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--c-navy);}
+.hsub{font-size:.8rem;font-weight:800;color:#5b7fa6;letter-spacing:1px;text-transform:uppercase;}
+
+/* Progress */
+.prog-wrap{background:white;border-radius:20px;padding:13px 18px 14px;margin-bottom:16px;box-shadow:0 3px 18px rgba(61,142,240,.13);border:2px solid rgba(61,142,240,.18);}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.prog-lbl{font-size:.8rem;font-weight:800;color:#5b7fa6;display:flex;align-items:center;gap:5px;}
+.q-pill{font-size:.8rem;font-weight:900;background:#EEF4FF;color:#3D6FCA;padding:3px 12px;border-radius:20px;border:1.5px solid #b8d0ff;}
+.prog-track{height:20px;background:#EEF4FF;border-radius:20px;overflow:hidden;border:1.5px solid #d0e3ff;}
+.prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#3D8EF0,#9B6DFF);transition:width .55s cubic-bezier(.34,1.56,.64,1);position:relative;}
+.prog-fill::after{content:'🚀';position:absolute;right:-4px;top:50%;transform:translateY(-50%);font-size:13px;}
+.prog-bot{display:flex;justify-content:space-between;margin-top:6px;}
+.p-stage{font-size:.7rem;font-weight:800;color:#9ab2cc;}
+
+/* Chip */
+.chip{position:fixed;top:14px;right:14px;z-index:50;background:white;border-radius:14px;padding:7px 14px;box-shadow:0 3px 14px rgba(0,0,0,.12);border:2px solid #FFD93D;font-size:.88rem;font-weight:900;color:#b85c00;display:flex;align-items:center;gap:5px;}
+
+/* Question card */
+.q-card{background:white;border-radius:28px;padding:24px 22px 20px;margin-bottom:16px;box-shadow:0 6px 28px rgba(61,142,240,.16);border:2.5px solid rgba(100,160,255,.25);text-align:center;animation:cardAppear .42s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes cardAppear{from{transform:scale(.82)translateY(22px);opacity:0;}to{transform:scale(1)translateY(0);opacity:1;}}
+
+.q-badge{display:inline-block;font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;padding:4px 14px;border-radius:30px;background:#EEF4FF;color:#3D6FCA;border:1.5px solid #b8d0ff;margin-bottom:12px;}
+
+.num-big{font-family:'Fredoka One',cursive;font-size:6.5rem;line-height:1.05;animation:numBurst .45s cubic-bezier(.34,1.56,.64,1) both;text-shadow:3px 4px 0 rgba(0,0,0,.08);}
+@keyframes numBurst{from{transform:scale(.2)rotate(-15deg);opacity:0;}to{transform:scale(1)rotate(0);opacity:1;}}
+
+.word-big{font-family:'Fredoka One',cursive;font-size:3rem;line-height:1.1;color:var(--c-navy);background:#F8F4FF;border-radius:16px;padding:10px 28px;display:inline-block;border:3px solid #d4c4ff;margin:8px 0;animation:numBurst .45s cubic-bezier(.34,1.56,.64,1) both;}
+
+.emoji-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;min-height:40px;margin:8px 0 4px;align-items:center;}
+.e-item{font-size:1.9rem;animation:ePop .28s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes ePop{from{transform:scale(0);}to{transform:scale(1);}}
+
+.q-instr{font-size:1.1rem;font-weight:800;color:var(--c-navy);margin-top:10px;line-height:1.35;}
+
+/* Answers */
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:16px;}
+
+.a-btn{font-family:'Fredoka One',cursive;font-size:1.55rem;padding:20px 10px;border-radius:20px;border:3px solid transparent;cursor:pointer;transition:transform .13s,box-shadow .13s;outline:none;text-align:center;-webkit-tap-highlight-color:transparent;}
+.a-btn:hover:not(:disabled){transform:translateY(-4px)scale(1.04);}
+.a-btn:active:not(:disabled){transform:scale(.94);}
+.a-btn:disabled{cursor:not-allowed;}
+
+.a-btn.t0{background:#FFF0F3;color:#C0002A;border-color:#FFA3BB;box-shadow:0 5px 0 #FFA3BB;}
+.a-btn.t1{background:#F0FFF6;color:#006B30;border-color:#72E09A;box-shadow:0 5px 0 #72E09A;}
+.a-btn.t2{background:#FFFBF0;color:#7A4B00;border-color:#FFD055;box-shadow:0 5px 0 #FFD055;}
+.a-btn.t3{background:#F3F0FF;color:#3500B8;border-color:#B0A4FF;box-shadow:0 5px 0 #B0A4FF;}
+
+.a-btn.is-correct{background:#D1FAE5!important;border-color:#22C55E!important;box-shadow:0 5px 0 #16A34A!important;color:#14532D!important;animation:btnBounce .5s ease both;}
+.a-btn.is-wrong{background:#FEE2E2!important;border-color:#EF4444!important;box-shadow:0 5px 0 #B91C1C!important;color:#7F1D1D!important;animation:btnShake .38s ease both;}
+.a-btn.show-right{background:#D1FAE5!important;border-color:#22C55E!important;box-shadow:0 5px 0 #16A34A!important;color:#14532D!important;}
+
+@keyframes btnBounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-10px)}65%{transform:translateY(-4px)}}
+@keyframes btnShake{0%,100%{transform:translateX(0)}22%{transform:translateX(-9px)}65%{transform:translateX(8px)}}
+
+/* Feedback */
+.feedback{border-radius:18px;padding:13px 18px;font-size:1.05rem;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:14px;min-height:54px;justify-content:center;text-align:center;transition:opacity .2s,transform .2s;border:2px solid transparent;}
+.feedback.hidden{opacity:0;transform:scale(.95);pointer-events:none;}
+.feedback.ok{background:#D1FAE5;color:#065F46;border-color:#6EE7B7;}
+.feedback.bad{background:#FEE2E2;color:#991B1B;border-color:#FCA5A5;}
+.fi{font-size:1.5rem;flex-shrink:0;}
+
+/* Score screen */
+#score-screen{display:none;}
+#score-screen.show{display:block;}
+.score-wrap{text-align:center;padding:20px 14px 44px;position:relative;z-index:1;}
+
+.s-mascot{font-size:5.5rem;display:block;animation:mBounce 1.4s ease-in-out infinite alternate;}
+@keyframes mBounce{from{transform:translateY(0)rotate(-4deg);}to{transform:translateY(-14px)rotate(4deg);}}
+
+.s-title{font-family:'Fredoka One',cursive;font-size:2.4rem;color:var(--c-navy);margin:8px 0 4px;text-shadow:2px 2px 0 rgba(61,142,240,.2);}
+.s-sub{font-size:.95rem;font-weight:800;color:#5b7fa6;margin-bottom:20px;}
+
+.s-panel{background:white;border-radius:28px;padding:26px 22px;box-shadow:0 6px 28px rgba(61,142,240,.18);border:2.5px solid rgba(100,160,255,.25);max-width:400px;margin:0 auto 22px;}
+.stars-row{font-size:3.8rem;letter-spacing:5px;display:block;margin-bottom:14px;}
+.s-num{font-family:'Fredoka One',cursive;font-size:5rem;color:#1565C0;line-height:1;}
+.s-denom{font-size:1.2rem;font-weight:800;color:#7986CB;}
+.s-msg{font-size:1rem;font-weight:800;color:var(--c-navy);background:#EEF4FF;border-radius:14px;padding:11px 16px;margin:14px 0 0;border:1.5px solid #c5d8ff;line-height:1.45;}
+
+.breakdown{display:flex;gap:10px;justify-content:center;margin-top:16px;}
+.bd{flex:1;background:#F8FAFF;border-radius:15px;padding:11px 6px;border:2px solid #e0e7ff;text-align:center;}
+.bd-n{font-family:'Fredoka One',cursive;font-size:2.3rem;line-height:1;}
+.bd-l{font-size:.72rem;font-weight:800;color:#7986cb;margin-top:3px;}
+.bd.ok .bd-n{color:#16a34a;} .bd.no .bd-n{color:#dc2626;} .bd.pct .bd-n{color:#d97706;}
+
+.play-btn{font-family:'Fredoka One',cursive;font-size:1.45rem;background:linear-gradient(135deg,#3D8EF0,#9B6DFF);color:white;border:none;border-radius:22px;padding:18px 52px;cursor:pointer;box-shadow:0 6px 0 #2060c0;transition:transform .14s,box-shadow .14s;}
+.play-btn:hover{transform:translateY(-4px);box-shadow:0 10px 0 #2060c0;}
+.play-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #2060c0;}
+
+/* Confetti */
+.cf{position:fixed;border-radius:2px;pointer-events:none;z-index:999;animation:cfFall linear forwards;}
+@keyframes cfFall{0%{transform:translateY(-10px)rotate(0deg);opacity:1;}100%{transform:translateY(110vh)rotate(700deg);opacity:0;}}
+
+@media(max-width:480px){
+  .num-big{font-size:5rem;} .a-btn{font-size:1.25rem;padding:16px 8px;}
+  .s-title{font-size:1.9rem;} .s-num{font-size:4rem;} .word-big{font-size:2.3rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="deco d1"></div><div class="deco d2"></div><div class="deco d3"></div>
+<div class="deco d4"></div><div class="deco d5"></div><div class="deco d6"></div>
+<div class="star-bg" id="star-bg"></div>
+<div class="chip">⭐ <span id="chip-score">0</span> / 20</div>
+
+<!-- QUIZ SCREEN -->
+<div class="app" id="quiz-app">
+  <div class="header">
+    <div class="hlogo"><span class="icon">🔢</span><span>Number Names Quiz</span></div>
+    <div class="hsub">Class 1 · Mathematics · Numbers 0 – 10</div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <div class="prog-lbl">🚀 Your Progress</div>
+      <div class="q-pill" id="q-pill">Q 1 of 20</div>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="pbar" style="width:5%"></div></div>
+    <div class="prog-bot">
+      <span class="p-stage">Start 🌱</span>
+      <span class="p-stage">Halfway 🌟</span>
+      <span class="p-stage">Finish 🏆</span>
+    </div>
+  </div>
+
+  <div class="q-card" id="q-card">
+    <div class="q-badge" id="q-badge">Which name?</div>
+    <div class="num-big" id="num-big" style="color:#3D8EF0">5</div>
+    <div class="word-big" id="word-big" style="display:none">Five</div>
+    <div class="emoji-strip" id="emoji-strip"></div>
+    <div class="q-instr" id="q-instr">Choose the correct name for this number:</div>
+  </div>
+
+  <div class="feedback hidden" id="feedback">
+    <span class="fi" id="fb-icon">✅</span>
+    <span id="fb-text">Well done!</span>
+  </div>
+
+  <div class="answers" id="answers"></div>
+</div>
+
+<!-- SCORE SCREEN -->
+<div id="score-screen">
+  <div class="score-wrap">
+    <span class="s-mascot" id="s-mascot">🏆</span>
+    <div class="s-title">Quiz Complete!</div>
+    <div class="s-sub">You answered all 20 questions!</div>
+    <div class="s-panel">
+      <span class="stars-row" id="s-stars">⭐⭐⭐</span>
+      <div class="s-num" id="s-num">18</div>
+      <div class="s-denom">out of 20</div>
+      <div class="s-msg" id="s-msg">Amazing! You're a Number Superstar! 🌟</div>
+      <div class="breakdown">
+        <div class="bd ok"><div class="bd-n" id="bd-ok">18</div><div class="bd-l">✅ Correct</div></div>
+        <div class="bd no"><div class="bd-n" id="bd-no">2</div><div class="bd-l">❌ Wrong</div></div>
+        <div class="bd pct"><div class="bd-n" id="bd-pct">90%</div><div class="bd-l">🎯 Score</div></div>
+      </div>
+    </div>
+    <button class="play-btn" onclick="initQuiz()">🔄 Play Again!</button>
+  </div>
+</div>
+
+<script>
+const NAMES  = ['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
+const COLORS = ['#9B6DFF','#3D8EF0','#FF6B6B','#2DC970','#FF8C42','#E91E9F','#3ECFB2','#FF6B6B','#3D8EF0','#2DC970','#9B6DFF'];
+const EMOJIS = ['🥚','🌟','🍎','🐱','🌸','⭐','🐝','🦋','🌺','🐶','🎉'];
+const PRAISE = [
+  ['Well done!','You nailed it! 🌟'],
+  ['Fantastic!','That\'s correct! 🎊'],
+  ['Brilliant!','You\'re so smart! 🧠'],
+  ['Excellent!','Amazing answer! 🏆'],
+  ['Great job!','Keep it up! ✨'],
+];
+const WRONG_SAY=['Please try again! 💪','Oops – not quite! Try next time 💪','Keep going, you can do it! 💪'];
+
+let questions=[], qi=0, score=0, answered=false, voices=[];
+
+// TTS
+function loadVoices(){ voices=window.speechSynthesis?window.speechSynthesis.getVoices():[]; }
+if(window.speechSynthesis){window.speechSynthesis.onvoiceschanged=loadVoices;loadVoices();}
+function speak(txt){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(txt);
+  u.rate=0.93;u.pitch=1.18;u.volume=1;
+  const v=voices.find(v=>/google|samantha|karen|moira/i.test(v.name)&&v.lang.startsWith('en'))
+          ||voices.find(v=>v.lang.startsWith('en-'));
+  if(v)u.voice=v;
+  window.speechSynthesis.speak(u);
+}
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function buildQuestions(){
+  // 20 questions: all 11 numbers appear at least once; remainder random
+  let pool=shuffle([...Array(11).keys(),...shuffle([...Array(11).keys()]).slice(0,9)]);
+  return pool.map(n=>{
+    // type 0: see digit → pick word name (4 word choices)
+    // type 1: see word → pick digit shown as number (4 digit choices)
+    const type=Math.random()<0.55?0:1;
+    const wrongs=shuffle(NAMES.filter((_,i)=>i!==n)).slice(0,3);
+    const choices=shuffle([NAMES[n],...wrongs]); // all stored as word-names
+    return{n,type,choices};
+  });
+}
+
+// Star background
+(function(){
+  const c=document.getElementById('star-bg');
+  const chars=['✦','✧','✶','✸','·'];
+  for(let i=0;i<28;i++){
+    const s=document.createElement('span');
+    s.className='star';
+    s.textContent=chars[0|Math.random()*chars.length];
+    s.style.cssText=`left:${Math.random()*96}vw;top:${Math.random()*96}vh;animation-delay:${Math.random()*3}s;font-size:${.7+Math.random()*.8}rem;`;
+    c.appendChild(s);
+  }
+})();
+
+function initQuiz(){
+  questions=buildQuestions();qi=0;score=0;answered=false;
+  document.getElementById('score-screen').classList.remove('show');
+  document.getElementById('quiz-app').style.display='block';
+  document.querySelectorAll('.cf').forEach(e=>e.remove());
+  renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const q=questions[qi];
+  const{n,type,choices}=q;
+
+  // Progress
+  document.getElementById('pbar').style.width=Math.max(5,Math.round((qi/20)*100))+'%';
+  document.getElementById('q-pill').textContent=`Q ${qi+1} of 20`;
+  document.getElementById('chip-score').textContent=score;
+
+  // Badge & instruction
+  if(type===0){
+    document.getElementById('q-badge').textContent='👁️ Look at the number!';
+    document.getElementById('q-instr').textContent='Choose the correct name for this number:';
+  }else{
+    document.getElementById('q-badge').textContent='📖 Read the word!';
+    document.getElementById('q-instr').textContent='Which number matches this word?';
+  }
+
+  // Show number or word
+  const nEl=document.getElementById('num-big'), wEl=document.getElementById('word-big');
+  nEl.style.animation=wEl.style.animation='none';
+  void nEl.offsetWidth;void wEl.offsetWidth;
+  if(type===0){
+    nEl.style.display='';wEl.style.display='none';
+    nEl.textContent=n;nEl.style.color=COLORS[n];
+    nEl.style.animation='numBurst .45s cubic-bezier(.34,1.56,.64,1) both';
+  }else{
+    nEl.style.display='none';wEl.style.display='';
+    wEl.textContent=NAMES[n].charAt(0).toUpperCase()+NAMES[n].slice(1);
+    wEl.style.animation='numBurst .45s cubic-bezier(.34,1.56,.64,1) both';
+  }
+
+  // Emoji strip
+  const es=document.getElementById('emoji-strip');es.innerHTML='';
+  if(n===0){
+    es.innerHTML='<span style="font-size:.82rem;font-weight:800;color:#94a3b8">Nothing here — that\'s zero!</span>';
+  }else{
+    for(let i=0;i<n;i++){
+      const sp=document.createElement('span');
+      sp.className='e-item';sp.style.animationDelay=(i*.055)+'s';
+      sp.textContent=EMOJIS[n];es.appendChild(sp);
+    }
+  }
+
+  // Card re-animate
+  const card=document.getElementById('q-card');
+  card.style.animation='none';void card.offsetWidth;
+  card.style.animation='cardAppear .42s cubic-bezier(.34,1.56,.64,1) both';
+
+  // Hide feedback
+  document.getElementById('feedback').className='feedback hidden';
+
+  // Build answer buttons
+  const grid=document.getElementById('answers');grid.innerHTML='';
+  choices.forEach((ch,i)=>{
+    const btn=document.createElement('button');
+    btn.className=`a-btn t${i}`;
+    // type 0: show word labels; type 1: show digit labels
+    btn.textContent=type===0
+      ?(ch.charAt(0).toUpperCase()+ch.slice(1))
+      :NAMES.indexOf(ch).toString();
+    btn.dataset.val=ch;
+    btn.addEventListener('click',()=>handleAnswer(btn,ch,q));
+    grid.appendChild(btn);
+  });
+}
+
+function handleAnswer(btn,choice,q){
+  if(answered)return;answered=true;
+  const correct=choice===NAMES[q.n];
+  document.querySelectorAll('.a-btn').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedback');
+  if(correct){
+    score++;
+    btn.classList.add('is-correct');
+    const p=PRAISE[0|Math.random()*PRAISE.length];
+    fb.className='feedback ok';
+    document.getElementById('fb-icon').textContent='✅';
+    document.getElementById('fb-text').textContent=p[0]+' '+p[1];
+    speak(p[0]);
+    if(score%5===0)launchConfetti();
+  }else{
+    btn.classList.add('is-wrong');
+    document.querySelectorAll('.a-btn').forEach(b=>{if(b.dataset.val===NAMES[q.n])b.classList.add('show-right');});
+    const m=WRONG_SAY[0|Math.random()*WRONG_SAY.length];
+    fb.className='feedback bad';
+    document.getElementById('fb-icon').textContent='❌';
+    document.getElementById('fb-text').textContent=m;
+    speak('Please try again');
+  }
+  document.getElementById('chip-score').textContent=score;
+  setTimeout(()=>{qi++;qi<20?renderQ():showScore();},1900);
+}
+
+function showScore(){
+  document.getElementById('quiz-app').style.display='none';
+  document.getElementById('score-screen').classList.add('show');
+  document.getElementById('chip-score').textContent=score;
+  document.getElementById('pbar').style.width='100%';
+  const pct=score/20;
+  let stars,mascot,msg,speech;
+  if(pct===1){stars='⭐⭐⭐';mascot='🏆';msg='PERFECT SCORE! You are an incredible Number Superstar! 🌟🎉';speech='Perfect score! Excellent! You are amazing!';}
+  else if(pct>=.85){stars='⭐⭐⭐';mascot='🎉';msg='Brilliant! You really know your number names! 🌟';speech='Brilliant! Fantastic result!';}
+  else if(pct>=.70){stars='⭐⭐';mascot='😊';msg='Well done! You\'re getting better every day! Keep practising! 💪';speech='Well done! Good job!';}
+  else if(pct>=.50){stars='⭐';mascot='💪';msg='Good try! Keep practising your number names – you\'ll do great!';speech='Good try! Keep practising!';}
+  else{stars='⭐';mascot='🌱';msg='Every expert was once a beginner! Keep practising your number names! 🌱';speech='Keep practising, you can do it!';}
+  document.getElementById('s-stars').textContent=stars;
+  document.getElementById('s-mascot').textContent=mascot;
+  document.getElementById('s-num').textContent=score;
+  document.getElementById('s-msg').textContent=msg;
+  document.getElementById('bd-ok').textContent=score;
+  document.getElementById('bd-no').textContent=20-score;
+  document.getElementById('bd-pct').textContent=Math.round(pct*100)+'%';
+  setTimeout(()=>speak(speech),500);
+  if(pct>=.7)launchConfetti(true);
+}
+
+function launchConfetti(big=false){
+  const cols=['#3D8EF0','#FF6B6B','#2DC970','#FFD93D','#9B6DFF','#FF8C42','#3ECFB2','#FF6BA8'];
+  for(let i=0;i<(big?90:35);i++){
+    const el=document.createElement('div');el.className='cf';
+    const circle=Math.random()>.5;
+    el.style.cssText=`left:${Math.random()*100}vw;background:${cols[0|Math.random()*cols.length]};width:${7+Math.random()*8}px;height:${7+Math.random()*8}px;border-radius:${circle?'50%':'3px'};animation-duration:${2.2+Math.random()*2}s;animation-delay:${Math.random()*.6}s;`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),5000);
+  }
+}
+
+initQuiz();
+</script>
+</body>
+</html>
